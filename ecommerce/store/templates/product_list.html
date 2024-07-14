@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+<body>
+
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><img src="{% static 'images/SUPER_DUPER.png' %}" alt="" width="80" height="80"></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Offcanvas</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <form class="w-50 d-flex container-fluid"  role="search">
+
+                    <div class="input-group">
+                        <input type="text" class="form-control me-2 " placeholder="¿Qué estás buscando?" aria-label="Search">    
+                        <div class="input-group-append">
+                            <button class="btn" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl" style="color: #000000;"></i></button>
+                        </div>
+                    </div>
+        
+                </form>
+              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                <li class="nav-item">
+                    <div class="modo_entrega nav-item dropdown">
+                        <a class="nav-link dropdown-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-geo-alt-fill"></i> Elige tu modo de entrega
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Despacho</a></li>
+                            <li><a class="dropdown-item" href="#">Retiro en tienda</a></li>
+                        </ul>
+                    </div>
+                </li>
+              <li class="nav-item">
+                    <button class="iniciar_sesion "><i class="bi bi-person-fill fa-2x" style="color: #ffffff;"></i></button>
+              </li>
+                <div class="nav-item dropdown">
+                    <a class="nav-link" href="#" id="cartDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-cart-fill fa-xl" style="color: #FEDE4D;"></i>
+                        <span class="badge bg-danger" id="cart-count">0</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="cartDropdown">
+                        <li><a class="dropdown-item" href="carrito.html">Ver carrito</a></li>
+                    </ul>
+                </div>
+              </ul>
+              
+            </div>
+          </div>
+        </div>
+      </nav>
+
+
+
+
+
+
+    <div class="container">
+        <h1>Product List</h1>
+        <div class="row">
+            {% for product in products %}
+            <div class="col-md-4">
+                <div class="card">
+                    {% if product.image %}
+                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">{{ product.description }}</p>
+                        <p class="card-text">${{ product.price }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
+
