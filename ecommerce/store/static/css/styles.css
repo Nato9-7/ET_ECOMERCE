@@ -1,5 +1,4 @@
 body{
-    background-color: white;
     margin-bottom: 100px;
 }
 
@@ -95,4 +94,9 @@ body{
 .items p{
     font-size: large;
     font-weight: bold;
+}
+
+.seccion-formulario{
+    background-color: #FFC221;
+    padding: 3rem 0 3rem 0;
 }
