@@ -1,6 +1,4 @@
-body{
-    margin-bottom: 100px;
-}
+
 
 .navbar{
     background-color: #ff4d4d;
@@ -49,7 +47,7 @@ body{
 
 .carousel-item img {
     object-fit: fill; /* Asegura que la imagen mantenga su proporción */
-    height: 400px; /* Ajusta la altura según sea necesario */
+    height: 450px; /* Ajusta la altura según sea necesario */
     width: 100%;
 }
 
@@ -99,4 +97,15 @@ body{
 .seccion-formulario{
     background-color: #FFC221;
     padding: 3rem 0 3rem 0;
+}
+
+footer{
+    margin-top: 2rem;
+    background-color: #ff4d4d;
+    padding-bottom: 3rem;
+}
+
+footer .pagos img{
+    background-color: #ffffff;
+    border-radius: 10px;
 }

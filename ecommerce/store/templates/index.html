@@ -120,7 +120,7 @@
                 
               </div>
               <div class="carousel-item">
-                <img src="{% static 'images/OFERTA_3.png' %}" alt="">
+                <img src="{% static 'images/OFERTA_3.png.png' %}" alt="">
               </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
@@ -145,7 +145,7 @@
                <p>Carnes</p>
             </div>
             <div class="col-auto button-container">
-                <a href="{% url 'product_list' %}" class="btn btn-primary button"> <i class="fa-solid fa-wine-bottle fa-2x"></i></a>
+                <a href="..." class="btn btn-primary button"> <i class="fa-solid fa-wine-bottle fa-2x"></i></a>
                 <p>Bebidas</p>
             </div>
             <div class="col-auto button-container">
@@ -165,102 +165,81 @@
     </div>
 
 
+    <section>
+     
+      <div class="container text-center mb-3">
+        <h1> Visita nuestras secciones de productos</h1>
+        <div class="row">
+          <div class="col-sm-8">
+            <div class="card mb-3 mt-4">
+              aca va carnes
+              <img src="{% static 'images/OFERTA_2.png' %}" class="card-img" alt="...">
+            </div>
+            
+          </div>
+          <div class="col-sm-4">
+            <div class="card mb-3">
+              aca bebidas
+              <img src="{% static 'images/OFERTA_1.png' %}" class="card-img-top" alt="...">
+    
+            </div>
+            <div class="card mb-3">
+              aca lacteos
+              <img src="{% static 'images/OFERTA_1.png' %}" class="card-img-top" alt="...">
+    
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm">
+            <div class="card mb-3">
+              <img src="{% static 'images/OFERTA_3.png' %}" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">aca snaks</h5>
+               
+              </div>
+            </div>
+          </div>
+          <div class="col-sm">
+            <div class="card mb-3">
+              <img src="{% static 'images/OFERTA_3.png' %}" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">aca juguetes</h5>
+                
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+
 
     <section class="container">
-          <h1>Carnes</h1>
-          <div class="row">
-            {% for product in meats_products %}
-            <div class="card" style="width: 12rem;">
-                    {% if product.image %}
-                      <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
-                    {% else %}
-                      <img src="{% static 'images/default_product_image.png' %}" class="card-img-top" alt="Default Image">
-                    {% endif %}
-              <div class="card-body">
-                <h5 class="card-title">{{ product.name }}</h5>
-                <p class="card-text">{{ product.description }}</p>
-                <p class="card-text">{{ product.price }}</p>
-                <a href="#" class="btn btn-primary">View Product</a>
+          <h1>Productos</h1>
+        
+    
+          <div class="row row-cols-1 row-cols-md-6 g-4">
+            {% for product in products %}
+            <div class="col">
+              <div class="card h-50">
+                <a href="{% url 'producto' product.pk %}">
+                  {% if product.image %}
+                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                  {% else %}
+                    <img src="{% static 'images/default_product_image.png' %}" class="card-img-top" alt="Default Image">
+                  {% endif %}
+                </a>
+                 
+                <div class="card-body">
+                  <h5 class="card-title">{{product.name}}</h5>
+                  <p class="card-text">{{product.description}}</p>
+                </div>
               </div>
             </div>
             {% endfor %}
           </div>
-
-          <h1>Bebidas</h1>
-          <div class="row">
-            {% for product in bebida_products %}
-            <div class="card" style="width: 12rem;">
-                    {% if product.image %}
-                      <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
-                    {% else %}
-                      <img src="{% static 'images/default_product_image.png' %}" class="card-img-top" alt="Default Image">
-                    {% endif %}
-              <div class="card-body">
-                <h5 class="card-title">{{ product.name }}</h5>
-                <p class="card-text">{{ product.description }}</p>
-                <p class="card-text">{{ product.price  }}</p>
-                <a href="#" class="btn btn-primary">View Product</a>
-              </div>
-            </div>
-            {% endfor %}
-          </div>
-
-          <h1>Lacteo</h1>
-          <div class="row">
-            {% for product in lacteo_products %}
-            <div class="card" style="width: 12rem;">
-                    {% if product.image %}
-                      <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
-                    {% else %}
-                      <img src="{% static 'images/default_product_image.png' %}" class="card-img-top" alt="Default Image">
-                    {% endif %}
-              <div class="card-body">
-                <h5 class="card-title">{{ product.name }}</h5>
-                <p class="card-text">{{ product.description }}</p>
-                <p class="card-text">{{ product.price  }}</p>
-                <a href="#" class="btn btn-primary">View Product</a>
-              </div>
-            </div>
-            {% endfor %}
-          </div>
-
-          <h1>Juguetes</h1>
-          <div class="row">
-            {% for product in toys_products %}
-            <div class="card" style="width: 12rem;">
-                    {% if product.image %}
-                      <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
-                    {% else %}
-                      <img src="{% static 'images/default_product_image.png' %}" class="card-img-top" alt="Default Image">
-                    {% endif %}
-              <div class="card-body">
-                <h5 class="card-title">{{ product.name }}</h5>
-                <p class="card-text">{{ product.description }}</p>
-                <p class="card-text">{{ product.price  }}</p>
-                <a href="#" class="btn btn-primary">View Product</a>
-              </div>
-            </div>
-            {% endfor %}
-          </div>
-
-          <h1>Snaks</h1>
-          <div class="row">
-            {% for product in snak_products %}
-            <div class="card" style="width: 12rem;">
-                    {% if product.image %}
-                      <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
-                    {% else %}
-                      <img src="{% static 'images/default_product_image.png' %}" class="card-img-top" alt="Default Image">
-                    {% endif %}
-              <div class="card-body">
-                <h5 class="card-title">{{ product.name }}</h5>
-                <p class="card-text">{{ product.description }}</p>
-                <p class="card-text">{{ product.price  }}</p>
-                <a href="#" class="btn btn-primary">View Product</a>
-              </div>
-            </div>
-            {% endfor %}
-          </div>
+ 
     </section>
 
 
@@ -269,7 +248,7 @@
       <div class="container ">
         <h3 class="mb-3">Suscríbete a nuestras ofertas y beneficios SuperDuper</h3>
         <form class="row gy-2 gx-2 ">
-          <div class="col-6">
+          <div class="col-4">
             <div data-mdb-input-init class="form-outline">
 
               <input type="text" id="form11Example1" class="form-control" placeholder="Correo" />
@@ -279,29 +258,39 @@
           <div class="col-4">
             <div data-mdb-input-init class="form-outline">
 
-              <input type="text" id="form11Example3" class="form-control" placeholder="Rut"/>
-            </div>
-          </div>
-          <div class="col-4">
-            <div data-mdb-input-init class="form-outline">
-
               <input type="text" id="form11Example3" class="form-control" placeholder="Nombre"/>
             </div>
           </div>
-          <div class="col-auto">
-            <button data-mdb-ripple-init type="submit" class="btn btn-primary">Enviar</button>
+          <div class="col-2">
+            <div data-mdb-input-init class="form-outline">
+
+              <input type="text" id="form11Example3" class="form-control" placeholder="Rut"/>
+            </div>
+          </div>
+          <div class="col-2">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+              Enviar
+            </button>
           </div>
 
-          <div class="form-check">
-            <input
-              class="form-check-input "
-              type="checkbox"
-              value=""
-              id="form11Example2"
-              checked
-              
-            />
-            <label class="form-check-label" for="form11Example2"> Acepto los términos y condiciones </label>
+          
+
+          <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="staticBackdropLabel">Aceptar los terminos y condiciones</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  Si acepta es papu pro
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                  <button type="button" class="btn btn-primary">Acepto</button>
+                </div>
+              </div>
+            </div>
           </div>
         </form>
       </div>
@@ -312,7 +301,7 @@
 
     <footer class="container-fluid">
         <div class="row">
-          <div class="col">
+          <div class="col  mt-3">
             <h6>Centro de ayuda</h6>
             <ul>
               <li><a href="">Problemas con tu pedido</a></li>
@@ -321,15 +310,15 @@
               <li><a href=""><strong>Servicio al cliente</strong></a></li>
             </ul>
           </div>
-          <div class="col">
+          <div class="col  mt-3">
             <h6>Metodos de pagos</h6>
             <div class="pagos">
-              <img src="./assets/img/icon-webpay.png" alt="">
-              <img src="./assets/img/icon-master.png" alt="">
-              <img src="./assets/img/icon-visa.png" alt="">
+              <img src="{% static 'images/icon-master.png' %}" alt="">
+              <img src="{% static 'images/icon-visa.png' %}" alt="">
+              <img src="{% static 'images/icon-webpay.png' %}" alt="">
             </div>
           </div>
-          <div class="col redes">
+          <div class="col  mt-3 redes">
             <h6>Siguemos en redes sociales</h6>
               <a class="fa fa-facebook fa-2x" href="" target="_blank"></a>
               <a class="fa fa-instagram fa-2x" href="" target="_blank"></a>

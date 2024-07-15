@@ -1,8 +1,26 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Product, Category
 from django.db import connection
 
 def home(request):
+    products = Product.objects.all()
+    return render(request, 'index.html', {'products': products[:6]})
+
+def product_detail(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    return render(request, 'producto.html', {'product': product})
+
+def raw_product_list(request):
+
+    # products = Product.objects.all()
+    # raw_products = Product.objects.all()  # Supongamos que tienes otro modelo llamado RawProduct
+    # context = {
+    #     'products': products,
+    #     'raw_products': raw_products,
+    # }
+    # return render(request, 'index.html', context)
+
+
     toys_category = Category.objects.get(name='juguete')
     meats_category = Category.objects.get(name='carne')
     bebida_category = Category.objects.get(name='bebida')
@@ -22,11 +40,4 @@ def home(request):
         'bebida_products': bebida_products
     })
 
-def product_list(request):
-    products = Product.objects.all()
-    return render(request, 'product_list.html', {'products': products})
-
-def raw_product_list(request):
-    productos =  Product.objects.filter(category = 3)
-    return render(request, "raw_product_list.html", {"productos" : productos})
 
