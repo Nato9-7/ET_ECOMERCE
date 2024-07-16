@@ -1,0 +1,252 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuperDuper</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+
+     <!-- fuente -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  
+    {% bootstrap_javascript %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+
+<nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><img src="{% static 'images/SUPER_DUPER.png' %}" alt="" width="70" height="60"></a>
+    
+            <form class="w-50 d-flex container-fluid d-none d-lg-block" role="search">
+                <div class="input-group">
+                    <input type="text" class="form-control me-2" placeholder="¿Qué estás buscando?" aria-label="Search">
+                    <div class="input-group-append">
+                        <button class="btn btn-busqueda" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl" style="color: #000000;"></i></button>
+                    </div>
+                </div>
+            </form>
+    
+            <div class="modo-entrega nav-item dropdown d-none d-lg-block">
+                <a class="nav-link dropdown-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-geo-alt-fill"></i> Elige tu modo de entrega
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Despacho</a></li>
+                    <li><a class="dropdown-item" href="#">Retiro en tienda</a></li>
+                </ul>
+            </div>
+    
+            <div class="nav-item d-none d-lg-block">
+                <button class="iniciar-sesion"><i class="bi bi-person-fill fa-2x" style="color: #ffffff;"></i></button>
+            </div>
+    
+            <div class="nav-item dropdown d-none d-lg-block carrito">
+                <a class="nav-link" href="#" id="cartDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-cart fa-xl" style="color: #FEDE4D;"></i>
+                    <span class="badge bg-success" id="cart-count">{{ cart.cartitem_set.count }}</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="cartDropdown">
+                    <li><a class="dropdown-item" href="{% url 'cart_summary' %}">Ver carrito</a></li>
+                    <li class="dropdown-divider"></li>
+                    {% for item in cart.cartitem_set.all %}
+                    <li class="dropdown-item">
+                        {{ item.product.name }} - {{ item.quantity }} x ${{ item.price }}
+                        <form method="post" action="{% url 'remove_from_cart' item.id %}">
+                          {% csrf_token %}
+                          <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                      </form>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"><i class="bi bi-list fa-xl"></i></span>
+            </button>
+    
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel"><strong>SuperDuper</strong></h5>
+    
+                    <div class="nav-item dropdown carrito">
+                        <a class="nav-link" href="#" id="cartDropdownOffcanvas" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-cart fa-xl" style="color: #090909;"></i>
+                            <span class="badge bg-success" id="cart-count-offcanvas">{{ cart.cartitem_set.count }}</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="cartDropdownOffcanvas">
+                            <li><a class="dropdown-item" href="{% url 'cart_detail' %}">Ver carrito</a></li>
+                            <li class="dropdown-divider"></li>
+                            {% for item in cart.cartitem_set.all %}
+                            <li class="dropdown-item">
+                                {{ item.product.name }} - {{ item.quantity }} x ${{ item.product.price }}
+                                <a href="{% url 'remove_from_cart' item.id %}" class="btn btn-danger btn-sm">Remove</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="nav-item">
+                        <button class="iniciar-sesion"><i class="bi bi-person-fill fa-2x" style="color: #ffffff;"></i></button>
+                    </div>
+    
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        <li class="nav-item dropdown">
+                            <div class="modo-entrega nav-item dropdown">
+                                <a class="nav-link dropdown-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-geo-alt-fill"></i> Elige tu modo de entrega
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Despacho</a></li>
+                                    <li><a class="dropdown-item" href="#">Retiro en tienda</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                    <form class="d-flex mt-3" role="search">
+                        <input class="form-control me-2" type="search" placeholder="¿Qué estás buscando?" aria-label="Search">
+                        <button class="btn btn-busqueda" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl" style="color: #000000;"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+</nav>
+<div class="container">
+    <h1 class="mt-5 mb-4">Escoge un producto</h1>
+    <div class="store-wrapper">
+        <div class="category_list mb-4">
+            <a href="#" class="btn btn-outline-primary category_item" category="all">Todo</a>
+            <a href="#" class="btn btn-outline-primary category_item" category="carne">Carnes</a>
+            <a href="#" class="btn btn-outline-primary category_item" category="lacteo">Lacteos</a>
+            <a href="#" class="btn btn-outline-primary category_item" category="bebida">Bebidas</a>
+        </div>
+        <div class="row">
+            {% for product in products %}
+            <div class="col-md-2 col-sm-6 mb-4 products-list">
+                <div class="card product-item" category="{{ product.category }}">
+                    {% if product.image %}
+                    <img  src="{{ product.image.url }}" alt="" >
+                    {% endif %}
+                    <div class="card-body">
+                   
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <a href="bicicleta.html" class="btn btn-primary">Ver producto</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<section class="container-fluid seccion-formulario mt-3">
+      
+        <div class="container ">
+          <h2 class="m-3">Suscríbete a nuestras ofertas y beneficios SuperDuper</h2>
+          <form class="row gy-2 gx-2 ">
+            <div class="col-4">
+              <div data-mdb-input-init class="form-outline">
+  
+                <input type="text" id="form11Example1" class="form-control" placeholder="Ingrese su Correo" />
+              </div>
+            </div>
+           
+            <div class="col-4">
+              <div data-mdb-input-init class="form-outline">
+  
+                <input type="text" id="form11Example3" class="form-control" placeholder="Ingrese su Nombre"/>
+              </div>
+            </div>
+            <div class="col-2">
+              <div data-mdb-input-init class="form-outline">
+  
+                <input type="text" id="form11Example3" class="form-control" placeholder="Ingrese su rut"/>
+              </div>
+            </div>
+            <div class="col-3">
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Enviar Inscripcion
+              </button>
+            </div>
+  
+            
+  
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Aceptar los terminos y condiciones</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    Si acepta es papu pro
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary">Acepto</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+  
+</section>
+  
+  
+  
+<footer class="container-fluid   ">
+          <div class="row">
+            <div class="col  text-center mt-3 ">
+              <h3>Centro de ayuda</h3>
+              
+              <ul class="list-unstyled pl-0">
+                <li><a href="">Problemas con tu pedido</a></li>
+                <li><a href="">Información de pago</a></li>
+                <li><a href="">Cómo comprar en SuperDuper</a></li>
+                <li><a href="">Servicio al cliente</a></li>
+              </ul>
+  
+            </div>
+            <div class="col  text-center  mt-3 ">
+              <h3>Metodos de pagos</h3>
+              <div class="pagos m-3">
+                <img src="{% static 'images/icon-master.png' %}" alt="">
+  
+                <img src="{% static 'images/icon-visa.png' %}" alt="">
+  
+                <img src="{% static 'images/icon-webpay.png' %}" alt="">
+              </div>
+            </div>
+  
+      
+      <div class="col text-center  mt-3 ">
+          <h3>Síguenos en redes sociales</h3>
+          <div class="d-flex justify-content-center align-items-center m-3">
+              <a class="btn btn-danger button mr-2" href="#" target="_blank"><i class="fa fa-facebook fa-2x"></i></a>
+              <a class="btn btn-danger button mr-2" href="#" target="_blank"><i class="fa fa-instagram fa-2x"></i></a>
+              <a class="btn btn-danger button mr-2" href="#" target="_blank"><i class="fa fa-linkedin fa-2x"></i></a>
+          </div>
+      </div>
+  </div>
+  </div>
+          
+          </div>
+    
+          <p class="text-center">Copyright © 2024 Todos los derechos reservados por SuperDuper. Cualquier intento de robo será castigado con la muerte</p>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    
+<script src="{% static 'js/action.js' %}" > </script>
+</body>
+</html>

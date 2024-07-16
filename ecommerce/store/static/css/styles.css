@@ -1,3 +1,15 @@
+* {
+    font-family: "Montserrat", sans-serif;
+    
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    font-family: 'Montserrat', sans-serif;
+}
 
 
 .navbar{
@@ -68,12 +80,28 @@
     width: 60px; /* Ancho del área del botón */
     height: 60px; /* Altura del área del botón */
     border-radius: 50%; /* Hacer el área del botón circular */
-    background-color: #ff5e00; /* Color de fondo del botón */
+    background-color: #d7de1a; /* Color de fondo del botón */
     color: #ffffff; /* Color del icono */
     border: none;
 }
 .button i {
     font-size: 2rem; /* Tamaño del icono */
+}
+
+.rounded-icon {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px; /* Ajusta según el tamaño del ícono */
+    text-align: center;
+    border-radius: 50%; /* Crea el fondo redondo */
+    background-color: #007bff; /* Color de fondo opcional */
+    color: white; /* Color del ícono */
+    transition: background-color 0.3s ease; /* Transición suave del color de fondo */
+}
+
+.rounded-icon:hover {
+    background-color: #0056b3; /* Cambia el color de fondo al pasar el ratón */
 }
 
 .button-container {
@@ -108,4 +136,47 @@ footer{
 footer .pagos img{
     background-color: #ffffff;
     border-radius: 10px;
+}
+
+
+
+
+/* PARTE PARA PRODUCTO.HTML */
+
+.detalle-producto .img-producto{
+    box-shadow: 10px 5px 10px rgba(0, 0, 0, 0.3);
+
+}
+
+.detalle-producto span{
+    color: rgba(0, 0, 0, 0.611);
+}
+
+@media only screen and (max-width: 600px) {
+    .carousel img {
+      width: 100%; /* Ancho completo en dispositivos móviles */
+      height: auto; /* Altura automática según el contenido */
+    }
+}
+
+@media only screen and (min-width: 601px){
+    .carousel img {
+      width: 70vw; /* Ancho del 50% de la ventana gráfica */
+      height: 60vh; /* Altura del 30% de la ventana gráfica */
+    }
+}  
+
+
+.slide-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+
+  .table-product-image img {
+    max-width: 100px; /* Define el ancho máximo de las imágenes */
+        height: auto; /* Permite que la altura se ajuste automáticamente */
+
 }

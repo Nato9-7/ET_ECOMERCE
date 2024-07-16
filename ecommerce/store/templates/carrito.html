@@ -1,0 +1,214 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuperDuper</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+
+     <!-- fuente -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  
+    {% bootstrap_javascript %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+
+
+
+    
+  <nav class="navbar bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#"><img src="{% static 'images/SUPER_DUPER.png' %}" alt="" width="70" height="60"></a>
+
+        <form class="w-50 d-flex container-fluid d-none d-lg-block" role="search">
+            <div class="input-group">
+                <input type="text" class="form-control me-2" placeholder="¿Qué estás buscando?" aria-label="Search">
+                <div class="input-group-append">
+                    <button class="btn btn-busqueda" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl" style="color: #000000;"></i></button>
+                </div>
+            </div>
+        </form>
+
+        <div class="modo-entrega nav-item dropdown d-none d-lg-block">
+            <a class="nav-link dropdown-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-geo-alt-fill"></i> Elige tu modo de entrega
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Despacho</a></li>
+                <li><a class="dropdown-item" href="#">Retiro en tienda</a></li>
+            </ul>
+        </div>
+
+        <div class="nav-item d-none d-lg-block">
+            <button class="iniciar-sesion"><i class="bi bi-person-fill fa-2x" style="color: #ffffff;"></i></button>
+        </div>
+
+        <div class="nav-item dropdown d-none d-lg-block carrito">
+            <a class="nav-link" href="#" id="cartDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-cart fa-xl" style="color: #FEDE4D;"></i>
+                <span class="badge bg-success" id="cart-count">{{ cart.cartitem_set.count }}</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="cartDropdown">
+                <li><a class="dropdown-item" href="{% url 'cart_summary' %}">Ver carrito</a></li>
+                <li class="dropdown-divider"></li>
+                {% for item in cart.cartitem_set.all %}
+                <li class="dropdown-item">
+                    {{ item.product.name }} - {{ item.quantity }} x ${{ item.price }}
+                    <a href="{% url 'remove_from_cart' item.id %}" class="btn btn-danger btn-sm">Remove</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"><i class="bi bi-list fa-xl"></i></span>
+        </button>
+
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasNavbarLabel"><strong>SuperDuper</strong></h5>
+
+                <div class="nav-item dropdown carrito">
+                    <a class="nav-link" href="#" id="cartDropdownOffcanvas" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-cart fa-xl" style="color: #090909;"></i>
+                        <span class="badge bg-success" id="cart-count-offcanvas">{{ cart.cartitem_set.count }}</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="cartDropdownOffcanvas">
+                        <li><a class="dropdown-item" href="{% url 'cart_detail' %}">Ver carrito</a></li>
+                        <li class="dropdown-divider"></li>
+                        {% for item in cart.cartitem_set.all %}
+                        <li class="dropdown-item">
+                            {{ item.product.name }} - {{ item.quantity }} x ${{ item.product.price }}
+                            <a href="{% url 'remove_from_cart' item.id %}" class="btn btn-danger btn-sm">Remove</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="nav-item">
+                    <button class="iniciar-sesion"><i class="bi bi-person-fill fa-2x" style="color: #ffffff;"></i></button>
+                </div>
+
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <li class="nav-item dropdown">
+                        <div class="modo-entrega nav-item dropdown">
+                            <a class="nav-link dropdown-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-geo-alt-fill"></i> Elige tu modo de entrega
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Despacho</a></li>
+                                <li><a class="dropdown-item" href="#">Retiro en tienda</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+                <form class="d-flex mt-3" role="search">
+                    <input class="form-control me-2" type="search" placeholder="¿Qué estás buscando?" aria-label="Search">
+                    <button class="btn btn-busqueda" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl" style="color: #000000;"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+  </nav>
+
+    
+
+    {% block content %}
+    <div class="container mt-5">
+        <h1>Resumen del Carrito</h1>
+        <h2 class="text-center mb-4">Productos</h2>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                {% if cart.cartitem_set.all %}
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Producto</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Precio unitario</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Precio total</th>
+                        <th scope="col" class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart.cartitem_set.all %}
+                    <tr>
+                        <td class="table-product-image">
+                            {% if item.product.image %}
+                            <img src="{{ item.product.image.url }}" class="img-fluid" alt="{{ item.product.name }}">
+                            {% endif %}
+                        </td>
+                        <td>{{ item.product.name }}</td>
+                        <td>{{ item.product.description }}</td>
+                        <td>${{ item.product.price }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>${{ item.price }}</td>
+                        <td class="text-center">
+                            <a href="{% url 'remove_from_cart' item.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                {% else %}
+                <tbody>
+                    <tr>
+                        <td colspan="7" class="text-center">No hay productos en el carrito.</td>
+                    </tr>
+                </tbody>
+                {% endif %}
+            </table>
+        </div>
+        <a href="{% url 'cart_detail' %}" class="btn btn-primary">Volver al carrito</a>
+        <a href="..." class="btn btn-primary">Pagar</a>
+    </div>
+
+    {% endblock %}
+    <footer class="container-fluid  border">
+        <div class="row">
+          <div class="col  text-center mt-3  border border-secondary">
+            <h3>Centro de ayuda</h3>
+            <ul>
+              <li><a href="">Problemas con tu pedido</a></li>
+              <li><a href="">Información de pago</a></li>
+              <li><a href="">Cómo comprar en SuperDuper</a></li>
+              <li><a href="">Servicio al cliente</a></li>
+            </ul>
+          </div>
+          <div class="col  text-center mt-3  border border-secondary">
+            <h3>Metodos de pagos</h3>
+            <div class="pagos m-3">
+              <img src="{% static 'images/icon-master.png' %}" alt="">
+
+              <img src="{% static 'images/icon-visa.png' %}" alt="">
+
+              <img src="{% static 'images/icon-webpay.png' %}" alt="">
+            </div>
+          </div>
+          <div class="col mt-3 redes text-center  border border-secondary"> 
+            <h3>Síguenos en redes sociales</h3>
+            <div class="justify-content-center">
+            <a class="fa fa-facebook fa-2x button2 " href="#" target="_blank"></a>
+            <a class="fa fa-instagram fa-2x   " href="#" target="_blank"></a>
+            <a class="fa fa-linkedin fa-2x " href="#" target="_blank"></a>
+            </div>
+        </div>
+        
+        </div>
+  
+        <p class="text-center">Copyright © 2024 Todos los derechos reservados por SuperDuper. Cualquier intento de robo será castigado con la muerte</p>
+    </footer>
+  
+</body>
+</html>
