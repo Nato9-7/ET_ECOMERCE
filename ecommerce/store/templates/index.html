@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   
-    {% bootstrap_javascript %}
+    {% comment %} {% bootstrap_javascript %} {% endcomment %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -24,16 +24,19 @@
 
   <nav class="navbar bg-body-tertiary">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#"><img src="{% static 'images/SUPER_DUPER.png' %}" alt="" width="70" height="60"></a>
+        <a class="navbar-brand" href="{% url 'home' %}"><img src="{% static 'images/SUPER_DUPER.png' %}" alt="" width="70" height="60"></a>
 
-        <form class="w-50 d-flex container-fluid d-none d-lg-block" role="search">
-            <div class="input-group">
-                <input type="text" class="form-control me-2" placeholder="¿Qué estás buscando?" aria-label="Search">
-                <div class="input-group-append">
-                    <button class="btn btn-busqueda" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl" style="color: #000000;"></i></button>
-                </div>
+      
+      <form class="w-50 d-flex container-fluid d-none d-lg-block" role="search" method="get" action="{% url 'search_redirect' %}">
+        <div class="input-group">
+            <input type="text" class="form-control me-2" placeholder="¿Qué estás buscando?" aria-label="Search" name="q">
+            <div class="input-group-append">
+                <button class="btn btn-busqueda" type="submit">
+                    <i class="fa-solid fa-magnifying-glass fa-xl" style="color: #000000;"></i>
+                </button>
             </div>
-        </form>
+        </div>
+      </form>
 
         <div class="modo-entrega nav-item dropdown d-none d-lg-block">
             <a class="nav-link dropdown-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -46,7 +49,7 @@
         </div>
 
         <div class="nav-item d-none d-lg-block">
-            <button class="iniciar-sesion"><i class="bi bi-person-fill fa-2x" style="color: #ffffff;"></i></button>
+            <button class="iniciar-sesion"  onclick="document.getElementById('id01').style.display='block'" style="width:auto;"><i class="bi bi-person-fill fa-2x" style="color: #ffffff;"></i></button>
         </div>
 
         <div class="nav-item dropdown d-none d-lg-block carrito">
@@ -94,7 +97,7 @@
                     </ul>
                 </div>
                 <div class="nav-item">
-                    <button class="iniciar-sesion"><i class="bi bi-person-fill fa-2x" style="color: #ffffff;"></i></button>
+                    <button class="iniciar-sesion" onclick="document.getElementById('id01').style.display='block'" style="width:auto;"><i class="bi bi-person-fill fa-2x" style="color: #ffffff;"></i></button>
                 </div>
 
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -113,15 +116,78 @@
                         </div>
                     </li>
                 </ul>
-                <form class="d-flex mt-3" role="search">
-                    <input class="form-control me-2" type="search" placeholder="¿Qué estás buscando?" aria-label="Search">
+                <form class="d-flex mt-3" role="search" method="get" action="{% url 'search_redirect' %}">
+                    <input class="form-control me-2" type="text" placeholder="¿Qué estás buscando?" aria-label="Search" name="q">
                     <button class="btn btn-busqueda" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl" style="color: #000000;"></i></button>
                 </form>
+
+          
             </div>
         </div>
     </div>
-</nav>
+  </nav>
 
+  <div id="id01" class="modal">
+    
+    <form class="modal-content animate" action="/action_page.php" method="post" >
+      <div class="imgcontainer">
+        <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+      </div>
+
+      <div class="container">
+        <label for="uname"><b>Usuario</b></label>
+        <input class="usuario" type="text" placeholder="Ingrese su usuario" name="uname" required>
+
+        <label for="pssw"><b>Contraseña</b></label>
+        <input class="usuario" type="password" placeholder="Contraseña" name="psw" required>
+          
+        <button type="submit">Iniciar sesión</button>
+        <label>
+          <input type="checkbox" checked="checked" name="remember"> Recuerdame
+        </label>
+      </div>
+
+      <div class="container" style="background-color:#f1f1f1">
+        <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancelar</button>
+        <button onclick="document.getElementById('id02').style.display='block'; document.getElementById('id01').style.display='none'"  style="width:auto;">Registrame</button>
+      </div>
+    </form>
+  </div>
+
+  <div id="id02" class="modal">
+    <!-- action: es la url donde va la información del formulario -->
+    <form class="modal-content animate" action="/action_page.php" method="post">
+        <div class="imgcontainer">
+          <!-- boton cancelar cierra los formularios-->
+          <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
+          <!-- imagen -->
+    
+        </div>
+
+        
+        <div class="container">
+          <!-- EMAIL -->
+          <label for="uname"><b>Usuario</b></label>
+          <input class="usuario" type="text" placeholder="Usuario" name="uname" required>
+
+          <label for="psw"><b>Contraseña</b></label>
+          <input class="usuario" type="password" placeholder="Contraseña" name="psw" required>
+          
+          
+          <!-- CONTRASEÑA -->
+          <label for="psw"><b>Repetir contraseña</b></label>
+          <input  class="usuario" type="password" placeholder="Contraseña*" name="psw" required>
+          
+          <!-- BOTON PARA REGISTRARSE -->
+          <button type="submit">Registrarme</button>
+        </div>
+
+        <div class="container" style="background-color:#f1f1f1">
+          <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Cancelar</button>
+          <span class="psw"><button  onclick="document.getElementById('id01').style.display='block' ; document.getElementById('id02').style.display='none'" style="width:auto;">Iniciar sesión</button></span>
+        </div>        
+    </form>
+  </div>
 
     <section class="car-productos custom-border">
 
@@ -166,40 +232,41 @@
         <div class="row justify-content-center mt-3">
         
             <div class="col-auto button-container">
-               <a href="{% url 'raw_product_list' %}" class="btn btn-danger button"> <i class="fa-solid fa-drumstick-bite fa-2x" style="color: #ffffff;"></i></a>
+              
+               <a href="{% url 'lista_productos' %}?category=3" class="btn btn-danger button"> <i class="fa-solid fa-drumstick-bite fa-2x" style="color: #ffffff;"></i></a>
                <p>Carnes</p>
             </div>
             <div class="col-auto button-container">
-                <a href="..." class="btn btn-danger button"> <i class="fa-solid fa-wine-bottle fa-2x"></i></a>
+                <a href="{% url 'lista_productos' %}?category=7" class="btn btn-danger button"> <i class="fa-solid fa-wine-bottle fa-2x"></i></a>
                 <p>Bebidas</p>
             </div>
             <div class="col-auto button-container">
-                <a href="#Lacteos" class="btn btn-danger button"> <i class="fa-solid fa-cheese fa-2x"></i></a>
+                <a href="{% url 'lista_productos' %}?category=5" class="btn btn-danger button"> <i class="fa-solid fa-cheese fa-2x"></i></a>
                 <p>Lácteos</p>
             </div>
             <div class="col-auto button-container">
                 
-                <a href="#Snaks" class="btn btn-danger button"> <i class="fa-solid fa-cookie-bite fa-2x"></i></a>
+                <a href="{% url 'lista_productos' %}?category=6" class="btn btn-danger button"> <i class="fa-solid fa-cookie-bite fa-2x"></i></a>
                 <p>Snaks</p>
             </div>
             <div class="col-auto button-container">
-                <a href="#Juguetes" class="btn btn-danger button"> <i class="fa-solid fa-gamepad fa-2x"></i></a>
+                <a href="{% url 'lista_productos' %}?category=4" class="btn btn-danger button"> <i class="fa-solid fa-gamepad fa-2x"></i></a>
                 <p>Juguetes</p>
             </div>
         </div>
     </div>
 
 
-    <section>
+    <section class="product-grid">
      
       <div class="container text-center mb-3">
         <hr>
-        <h1> Visita nuestras secciones de productos</h1>
+        <h1> ¡Visita nuestras secciones de productos!</h1>
         <hr>
         <div class="row">
           <div class="col-sm-8">
             <div class="card mb-3">
-              <a href="{% url 'lista_productos' %}">
+              <a href="{% url 'lista_productos' %}?category=3">
                 <img src="{% static 'images/seccionCarne.jpg' %}" class="card-img" alt="...">
               </a>
             </div>
@@ -207,11 +274,14 @@
           </div>
           <div class="col-sm-4">
             <div class="card mb-3">
-              <img src="{% static 'images/seccionBebida.jpg' %}" class="card-img-top" alt="...">
-    
+              <a href="{% url 'lista_productos' %}?category=7">
+                <img src="{% static 'images/seccionBebida.jpg' %}" class="card-img" alt="...">
+              </a>
             </div>
             <div class="card mb-3">
-              <img src="{% static 'images/seccionLacteos.jpg' %}" class="card-img-top" alt="...">
+              <a href="{% url 'lista_productos' %}?category=5">
+                <img src="{% static 'images/seccionLacteos.jpg' %}" class="card-img" alt="...">
+              </a>
     
             </div>
           </div>
@@ -219,12 +289,16 @@
         <div class="row">
           <div class="col-sm">
             <div class="card mb-3">
-              <img src="{% static 'images/seccionSnaks.jpg' %}" class="card-img-top" alt="...">
+              <a href="{% url 'lista_productos' %}?category=6">
+                <img src="{% static 'images/seccionSnaks.jpg' %}" class="card-img" alt="...">
+              </a>
             </div>
           </div>
           <div class="col-sm">
             <div class="card mb-3">
-              <img src="{% static 'images/seccionJuguetes.jpg' %}" class="card-img-top" alt="...">
+              <a href="{% url 'lista_productos' %}?category=4">
+                <img src="{% static 'images/seccionJuguetes.jpg' %}" class="card-img" alt="...">
+              </a>
             </div>
           </div>
           
@@ -233,7 +307,7 @@
     </section>
 
 
-    <section class="container">
+    <section class="container products-section p-5">
       <hr>
       <h1 class="text-center">Productos</h1>
       <hr>
@@ -251,14 +325,14 @@
               {% endif %}
             </a>
              
-            <div class="card-body">
-              <h5 class="card-title">{{product.name}}</h5>
-              <p class="card-text">{{product.description}}</p>
+            <div class="card-body ">
+              <h6 class="card-title card-productos">{{product.name}}</h6>
+             
             </div>
             <form method="post" action="{% url 'add_to_cart' product.id %}">
               {% csrf_token %}
               <button type="submit" class="btn btn-primary"  id="id_quantity" name="quantity" min="1" value="1">Agregar al carrito</button>
-          </form>
+            </form>
           </div>
         </div>
         
@@ -269,76 +343,67 @@
   
 
     <section class="container-fluid seccion-formulario mt-3">
-      
-      <div class="container ">
-        <h2 class="m-3">Suscríbete a nuestras ofertas y beneficios SuperDuper</h2>
-        <form class="row gy-2 gx-2 ">
-          <div class="col-4">
-            <div data-mdb-input-init class="form-outline">
+      <div class="container">
+          <h2 class="m-3 text-center  fw-bold">Suscríbete a nuestras ofertas y beneficios SuperDuper</h2>
+  
+          <form class="row gy-2 gx-2" id="form">
+              <div class="col-12 col-md-4">
+                  <div data-mdb-input-init class="form-outline">
+                      <input type="email" id="email" name="mail" class="form-control" placeholder="Ingrese su Correo electrónico" required>
+                  </div>
+              </div>
+  
+              <div class="col-12 col-md-4">
+                  <div data-mdb-input-init class="form-outline">
+                      <input type="text" id="nombre" name="name" class="form-control" placeholder="Ingrese su Nombre" required>
+                  </div>
+              </div>
+  
+              <div class="col-12 col-md-4">
+                  <div data-mdb-input-init class="form-outline">
+                      <input type="text" id="rut" name="rut" class="form-control" placeholder="Ingrese su Rut" required>
+                  </div>
+              </div>
 
-              <input type="text" id="form11Example1" class="form-control" placeholder="Ingrese su Correo" />
-            </div>
-          </div>
-         
-          <div class="col-4">
-            <div data-mdb-input-init class="form-outline">
-
-              <input type="text" id="form11Example3" class="form-control" placeholder="Ingrese su Nombre"/>
-            </div>
-          </div>
-          <div class="col-2">
-            <div data-mdb-input-init class="form-outline">
-
-              <input type="text" id="form11Example3" class="form-control" placeholder="Ingrese su rut"/>
-            </div>
-          </div>
-          <div class="col-3">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-              Enviar Inscripcion
-            </button>
-          </div>
-
-          
-
-          <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="staticBackdropLabel">Aceptar los terminos y condiciones</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  Si acepta es papu pro
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                  <button type="button" class="btn btn-primary">Acepto</button>
+              <!-- Casilla de verificación de términos y condiciones -->
+              <div class="col-12  d-flex justify-content-center p-3">
+                <div class="form-check text-center">
+                    <input class="form-check-input" type="checkbox" id="terms" required>
+                    <label class="form-check-label fw-bold" for="terms">
+                        Acepto los Términos y condiciones de SuperDuper</a>
+                    </label>
                 </div>
               </div>
-            </div>
-          </div>
-        </form>
+    
+              <div class="col-12 d-flex justify-content-center p-3">
+                  <input type="submit" class="btn btn-success" id="button" value="Enviar Suscripción" >
+                </div>
+          </form>
+          <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+          <script type="text/javascript">emailjs.init('nBWJsvgZbCkOx8MVW')</script>
       </div>
+  </section>
+  
 
-    </section>
 
-
-
-    <footer class="container-fluid   ">
+    <footer class="container-fluid">
         <div class="row">
-          <div class="col  text-center mt-3 ">
-            <h3>Centro de ayuda</h3>
-            
+          <div class="col-12 col-md-4 text-center mt-3">
+            <h3 class="m-3">Centro de ayuda</h3>
             <ul class="list-unstyled pl-0">
-              <li><a href="">Problemas con tu pedido</a></li>
-              <li><a href="">Información de pago</a></li>
-              <li><a href="">Cómo comprar en SuperDuper</a></li>
-              <li><a href="">Servicio al cliente</a></li>
+              <li><a href="" class="footer-link">Problemas con tu pedido</a></li>
+              <li><a href="" class="footer-link">Información de pago</a></li>
+              <li><a href="" class="footer-link">Cómo comprar en SuperDuper</a></li>
+              <li><a href="" class="footer-link">Servicio al cliente</a></li>
             </ul>
-
           </div>
-          <div class="col  text-center  mt-3 ">
-            <h3>Metodos de pagos</h3>
+
+          <div class="col-12 col-md-4 text-center mt-3">
+            <img src="{% static 'images/SUPER_DUPER.png' %}" alt="" width="190" height="190">
+          </div>
+
+          <div class="col-12 col-md-4 text-center mt-3">
+            <h3 class="m-3">Metodos de pagos</h3>
             <div class="pagos m-3">
               <img src="{% static 'images/icon-master.png' %}" alt="">
 
@@ -347,25 +412,14 @@
               <img src="{% static 'images/icon-webpay.png' %}" alt="">
             </div>
           </div>
-
-    
-    <div class="col text-center  mt-3 ">
-        <h3>Síguenos en redes sociales</h3>
-        <div class="d-flex justify-content-center align-items-center m-3">
-            <a class="btn btn-danger button mr-2" href="#" target="_blank"><i class="fa fa-facebook fa-2x"></i></a>
-            <a class="btn btn-danger button mr-2" href="#" target="_blank"><i class="fa fa-instagram fa-2x"></i></a>
-            <a class="btn btn-danger button mr-2" href="#" target="_blank"><i class="fa fa-linkedin fa-2x"></i></a>
         </div>
-    </div>
-</div>
-</div>
-        
-        </div>
-  
-        <p class="text-center">Copyright © 2024 Todos los derechos reservados por SuperDuper. Cualquier intento de robo será castigado con la muerte</p>
+        <p class="text-center copyright">Copyright © 2024 Todos los derechos reservados por SuperDuper. Cualquier intento de robo será castigado con la muerte</p>
     </footer>
-  
-    
+
+    {% bootstrap_javascript %}
+    <script src="{% static 'js/action.js' %}" > </script>
+    <script src="{% static 'js/script_msg.js' %}" > </script>
+
 </body>
 </html>
 

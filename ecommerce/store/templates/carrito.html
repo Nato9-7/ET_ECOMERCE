@@ -24,104 +24,172 @@
 
 
     
-  <nav class="navbar bg-body-tertiary">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#"><img src="{% static 'images/SUPER_DUPER.png' %}" alt="" width="70" height="60"></a>
-
-        <form class="w-50 d-flex container-fluid d-none d-lg-block" role="search">
-            <div class="input-group">
-                <input type="text" class="form-control me-2" placeholder="¿Qué estás buscando?" aria-label="Search">
-                <div class="input-group-append">
-                    <button class="btn btn-busqueda" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl" style="color: #000000;"></i></button>
-                </div>
-            </div>
-        </form>
-
-        <div class="modo-entrega nav-item dropdown d-none d-lg-block">
-            <a class="nav-link dropdown-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-geo-alt-fill"></i> Elige tu modo de entrega
-            </a>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Despacho</a></li>
-                <li><a class="dropdown-item" href="#">Retiro en tienda</a></li>
-            </ul>
-        </div>
-
-        <div class="nav-item d-none d-lg-block">
-            <button class="iniciar-sesion"><i class="bi bi-person-fill fa-2x" style="color: #ffffff;"></i></button>
-        </div>
-
-        <div class="nav-item dropdown d-none d-lg-block carrito">
-            <a class="nav-link" href="#" id="cartDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-cart fa-xl" style="color: #FEDE4D;"></i>
-                <span class="badge bg-success" id="cart-count">{{ cart.cartitem_set.count }}</span>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="cartDropdown">
-                <li><a class="dropdown-item" href="{% url 'cart_summary' %}">Ver carrito</a></li>
-                <li class="dropdown-divider"></li>
-                {% for item in cart.cartitem_set.all %}
-                <li class="dropdown-item">
-                    {{ item.product.name }} - {{ item.quantity }} x ${{ item.price }}
-                    <a href="{% url 'remove_from_cart' item.id %}" class="btn btn-danger btn-sm">Remove</a>
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
-        
-        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"><i class="bi bi-list fa-xl"></i></span>
-        </button>
-
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasNavbarLabel"><strong>SuperDuper</strong></h5>
-
-                <div class="nav-item dropdown carrito">
-                    <a class="nav-link" href="#" id="cartDropdownOffcanvas" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-cart fa-xl" style="color: #090909;"></i>
-                        <span class="badge bg-success" id="cart-count-offcanvas">{{ cart.cartitem_set.count }}</span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="cartDropdownOffcanvas">
-                        <li><a class="dropdown-item" href="{% url 'cart_detail' %}">Ver carrito</a></li>
-                        <li class="dropdown-divider"></li>
-                        {% for item in cart.cartitem_set.all %}
-                        <li class="dropdown-item">
-                            {{ item.product.name }} - {{ item.quantity }} x ${{ item.product.price }}
-                            <a href="{% url 'remove_from_cart' item.id %}" class="btn btn-danger btn-sm">Remove</a>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <div class="nav-item">
-                    <button class="iniciar-sesion"><i class="bi bi-person-fill fa-2x" style="color: #ffffff;"></i></button>
-                </div>
-
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                    <li class="nav-item dropdown">
-                        <div class="modo-entrega nav-item dropdown">
-                            <a class="nav-link dropdown-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-geo-alt-fill"></i> Elige tu modo de entrega
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Despacho</a></li>
-                                <li><a class="dropdown-item" href="#">Retiro en tienda</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-                <form class="d-flex mt-3" role="search">
-                    <input class="form-control me-2" type="search" placeholder="¿Qué estás buscando?" aria-label="Search">
-                    <button class="btn btn-busqueda" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl" style="color: #000000;"></i></button>
-                </form>
-            </div>
-        </div>
-    </div>
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'home' %}"><img src="{% static 'images/SUPER_DUPER.png' %}" alt="" width="70" height="60"></a>
     
-  </nav>
-
+          
+          <form class="w-50 d-flex container-fluid d-none d-lg-block" role="search" method="get" action="{% url 'search_redirect' %}">
+            <div class="input-group">
+                <input type="text" class="form-control me-2" placeholder="¿Qué estás buscando?" aria-label="Search" name="q">
+                <div class="input-group-append">
+                    <button class="btn btn-busqueda" type="submit">
+                        <i class="fa-solid fa-magnifying-glass fa-xl" style="color: #000000;"></i>
+                    </button>
+                </div>
+            </div>
+          </form>
+    
+            <div class="modo-entrega nav-item dropdown d-none d-lg-block">
+                <a class="nav-link dropdown-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-geo-alt-fill"></i> Elige tu modo de entrega
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Despacho</a></li>
+                    <li><a class="dropdown-item" href="#">Retiro en tienda</a></li>
+                </ul>
+            </div>
+    
+            <div class="nav-item d-none d-lg-block">
+                <button class="iniciar-sesion"  onclick="document.getElementById('id01').style.display='block'" style="width:auto;"><i class="bi bi-person-fill fa-2x" style="color: #ffffff;"></i></button>
+            </div>
+    
+            <div class="nav-item dropdown d-none d-lg-block carrito">
+                <a class="nav-link" href="#" id="cartDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-cart fa-xl" style="color: #FEDE4D;"></i>
+                    <span class="badge bg-success" id="cart-count">{{ cart.cartitem_set.count }}</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="cartDropdown">
+                    <li><a class="dropdown-item" href="{% url 'cart_summary' %}">Ver carrito</a></li>
+                    <li class="dropdown-divider"></li>
+                    {% for item in cart.cartitem_set.all %}
+                    <li class="dropdown-item">
+                        {{ item.product.name }} - {{ item.quantity }} x ${{ item.price }}
+                        <form method="post" action="{% url 'remove_from_cart' item.id %}">
+                          {% csrf_token %}
+                          <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                      </form>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"><i class="bi bi-list fa-xl"></i></span>
+            </button>
+    
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel"><strong>SuperDuper</strong></h5>
+    
+                    <div class="nav-item dropdown carrito">
+                        <a class="nav-link" href="#" id="cartDropdownOffcanvas" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-cart fa-xl" style="color: #090909;"></i>
+                            <span class="badge bg-success" id="cart-count-offcanvas">{{ cart.cartitem_set.count }}</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="cartDropdownOffcanvas">
+                            <li><a class="dropdown-item" href="{% url 'cart_detail' %}">Ver carrito</a></li>
+                            <li class="dropdown-divider"></li>
+                            {% for item in cart.cartitem_set.all %}
+                            <li class="dropdown-item">
+                                {{ item.product.name }} - {{ item.quantity }} x ${{ item.product.price }}
+                                <a href="{% url 'remove_from_cart' item.id %}" class="btn btn-danger btn-sm">Remove</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="nav-item">
+                        <button class="iniciar-sesion" onclick="document.getElementById('id01').style.display='block'" style="width:auto;"><i class="bi bi-person-fill fa-2x" style="color: #ffffff;"></i></button>
+                    </div>
+    
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        <li class="nav-item dropdown">
+                            <div class="modo-entrega nav-item dropdown">
+                                <a class="nav-link dropdown-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-geo-alt-fill"></i> Elige tu modo de entrega
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Despacho</a></li>
+                                    <li><a class="dropdown-item" href="#">Retiro en tienda</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                    <form class="d-flex mt-3" role="search" method="get" action="{% url 'search_redirect' %}">
+                        <input class="form-control me-2" type="text" placeholder="¿Qué estás buscando?" aria-label="Search" name="q">
+                        <button class="btn btn-busqueda" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl" style="color: #000000;"></i></button>
+                    </form>
+    
+              
+                </div>
+            </div>
+        </div>
+      </nav>
+    
+      <div id="id01" class="modal">
+        
+        <form class="modal-content animate" action="/action_page.php" method="post">
+          <div class="imgcontainer">
+            <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+          </div>
+    
+          <div class="container">
+            <label for="uname"><b>Usuario</b></label>
+            <input class="usuario" type="text" placeholder="Ingrese su usuario" name="uname" required>
+    
+            <label for="pssw"><b>Contraseña</b></label>
+            <input class="usuario" type="password" placeholder="Contraseña" name="psw" required>
+              
+            <button type="submit">Iniciar sesión</button>
+            <label>
+              <input type="checkbox" checked="checked" name="remember"> Recuerdame
+            </label>
+          </div>
+    
+          <div class="container" style="background-color:#f1f1f1">
+            <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancelar</button>
+            <span class="psw"> <button onclick="document.getElementById('id02').style.display='block'; document.getElementById('id01').style.display='none'"  style="width:auto;">Registrame</button></span>
+          </div>
+        </form>
+      </div>
+    
+      <div id="id02" class="modal">
+        <!-- action: es la url donde va la información del formulario -->
+        <form class="modal-content animate" action="/action_page.php" method="post">
+            <div class="imgcontainer">
+              <!-- boton cancelar cierra los formularios-->
+              <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
+              <!-- imagen -->
+        
+            </div>
+    
+            
+            <div class="container">
+              <!-- EMAIL -->
+              <label for="uname"><b>Usuario</b></label>
+              <input class="usuario" type="text" placeholder="Usuario" name="uname" required>
+    
+              <label for="psw"><b>Contraseña</b></label>
+              <input class="usuario" type="password" placeholder="Contraseña" name="psw" required>
+              
+              
+              <!-- CONTRASEÑA -->
+              <label for="psw"><b>Repetir contraseña</b></label>
+              <input  class="usuario" type="password" placeholder="Contraseña*" name="psw" required>
+              
+              <!-- BOTON PARA REGISTRARSE -->
+              <button type="submit">Registrarme</button>
+            </div>
+    
+            <div class="container" style="background-color:#f1f1f1">
+              <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Cancelar</button>
+              <span class="psw"><button  onclick="document.getElementById('id01').style.display='block' ; document.getElementById('id02').style.display='none'" style="width:auto;">Iniciar sesión</button></span>
+            </div>        
+        </form>
+      </div>
     
 
     {% block content %}
@@ -175,19 +243,24 @@
     </div>
 
     {% endblock %}
-    <footer class="container-fluid  border">
+    <footer class="container-fluid">
         <div class="row">
-          <div class="col  text-center mt-3  border border-secondary">
-            <h3>Centro de ayuda</h3>
-            <ul>
-              <li><a href="">Problemas con tu pedido</a></li>
-              <li><a href="">Información de pago</a></li>
-              <li><a href="">Cómo comprar en SuperDuper</a></li>
-              <li><a href="">Servicio al cliente</a></li>
+          <div class="col-12 col-md-4 text-center mt-3">
+            <h3 class="m-3">Centro de ayuda</h3>
+            <ul class="list-unstyled pl-0">
+              <li><a href="" class="footer-link">Problemas con tu pedido</a></li>
+              <li><a href="" class="footer-link">Información de pago</a></li>
+              <li><a href="" class="footer-link">Cómo comprar en SuperDuper</a></li>
+              <li><a href="" class="footer-link">Servicio al cliente</a></li>
             </ul>
           </div>
-          <div class="col  text-center mt-3  border border-secondary">
-            <h3>Metodos de pagos</h3>
+
+          <div class="col-12 col-md-4 text-center mt-3">
+            <img src="{% static 'images/SUPER_DUPER.png' %}" alt="" width="190" height="190">
+          </div>
+
+          <div class="col-12 col-md-4 text-center mt-3">
+            <h3 class="m-3">Metodos de pagos</h3>
             <div class="pagos m-3">
               <img src="{% static 'images/icon-master.png' %}" alt="">
 
@@ -196,18 +269,8 @@
               <img src="{% static 'images/icon-webpay.png' %}" alt="">
             </div>
           </div>
-          <div class="col mt-3 redes text-center  border border-secondary"> 
-            <h3>Síguenos en redes sociales</h3>
-            <div class="justify-content-center">
-            <a class="fa fa-facebook fa-2x button2 " href="#" target="_blank"></a>
-            <a class="fa fa-instagram fa-2x   " href="#" target="_blank"></a>
-            <a class="fa fa-linkedin fa-2x " href="#" target="_blank"></a>
-            </div>
         </div>
-        
-        </div>
-  
-        <p class="text-center">Copyright © 2024 Todos los derechos reservados por SuperDuper. Cualquier intento de robo será castigado con la muerte</p>
+        <p class="text-center copyright">Copyright © 2024 Todos los derechos reservados por SuperDuper. Cualquier intento de robo será castigado con la muerte</p>
     </footer>
   
 </body>
